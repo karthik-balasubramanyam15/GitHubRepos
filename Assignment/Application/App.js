@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
-import _ from 'lodash'
+import _ from 'lodash';
 
 class App extends Component {
 
@@ -12,32 +12,40 @@ class App extends Component {
             userName: '',
             repository: '',
             validateUserName: false,
-            validateRepository: false
+            validateRepository: false,
+            repos: [],
         };
         this.handleCommits = this.handleCommits.bind(this);
     }
 
-
-
     handleCommits() {
-        console.log('Display Button Clicked: ', this.state);
-        let userId = !_.isEmpty(this.state.userName) ? this.state.userName : null
-        let repos = !_.isEmpty(this.state.repository) ? this.state.repository : null
-        console.log("IN HANDLE Commits: ", userId, repos)
-        if (_.isEmpty(this.state.userName)) {
+        let userId = !_.isEmpty(this.state.userName) ? this.state.userName : null;
+        let repos = !_.isEmpty(this.state.repository) ? this.state.repository : null;
+        if (_.isEmpty(userId)) {
             this.setState({
                 validateUserName: true,
             });
         }
-        if (_.isEmpty(this.state.repository)) {
+        if (_.isEmpty(repos)) {
             this.setState({
                 validateRepository: true,
             });
         }
+        if (!_.isEmpty(userId) && !_.isEmpty(repos)) {
+            this.getRepository().then((res) => {
+                this.setState({ repos: res });
+            });
+        }
+    }
+
+    getRepository = () => {
+        let username = this.state.userName.toLowerCase().trim();
+        const url = `https://api.github.com/users/${username}/repos`;
+        return fetch(url).then((res) => res.json());
     }
 
     displayMainView() {
-        console.log("IN Render: ", this.state)
+        console.log('IN Render: ', this.state);
         return (
             <View style={{
                 flex: 1,
@@ -62,6 +70,7 @@ class App extends Component {
                                 borderWidth: 1,
                                 borderRadius: 10,
                             }}
+                            value={this.state.userName}
                             spellCheck={false}
                             autoCorrect={false}
                             onChangeText={(input) => this.setState({ userName: input, validateUserName: false })}
@@ -85,6 +94,7 @@ class App extends Component {
                                 borderWidth: 1,
                                 borderRadius: 10,
                             }}
+                            value={this.state.repository}
                             spellCheck={false}
                             autoCorrect={false}
                             onChangeText={(input) => this.setState({ repository: input, validateRepository: false })}

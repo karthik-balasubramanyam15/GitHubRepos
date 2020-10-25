@@ -18,6 +18,7 @@ link to your public GitHub repo to HVOD. Provide the link requested as your resp
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
 import _ from 'lodash';
+import ResultsView from './ResultsView';
 
 class App extends Component {
 
@@ -42,11 +43,13 @@ class App extends Component {
         if (_.isEmpty(userId)) {
             this.setState({
                 validateUserName: true,
+                displayResults: false
             });
         }
         if (_.isEmpty(repos)) {
             this.setState({
                 validateRepository: true,
+                displayResults: false
             });
         }
         if (!_.isEmpty(userId) && !_.isEmpty(repos)) {
@@ -63,9 +66,13 @@ class App extends Component {
                     this.getResultsArray(res);
                 });
             } else {
-                this.setState({ repositoryExists: false })
+                this.setState({
+                    repositoryExists: false,
+                    displayResults: false
+                })
             }
         }
+
     }
 
     getResultsArray(response) {
@@ -113,90 +120,100 @@ class App extends Component {
     displayMainView() {
         console.log('IN Render: ', this.state);
         return (
-            <View style={{
-                flex: 1,
-                marginTop: 100,
-                padding: 10,
-                backgroundColor: 'white',
-            }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <View style={{ flex: 0.35, justifyContent: 'center' }}>
-                        <Text style={{ fontSize: 16 }}>
-                            GitHub Username:
+            <View style={{ flex: 1 }}>
+                <View style={{
+                    marginTop: 100,
+                    padding: 10,
+                    backgroundColor: 'white',
+                }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={{ flex: 0.35, justifyContent: 'center' }}>
+                            <Text style={{ fontSize: 16 }}>
+                                GitHub Username:
+                            </Text>
+                        </View>
+                        <View style={{ flex: 0.65 }}>
+                            <TextInput
+                                placeholder={this.state.validateUserName ? 'Enter Valid Username' : 'Enter your Github Username'}
+                                placeholderTextColor={this.state.validateUserName ? 'red' : 'grey'}
+                                style={{
+                                    padding: 10,
+                                    fontSize: 16,
+                                    borderColor: this.state.validateUserName ? 'red' : 'grey',
+                                    borderWidth: 1,
+                                    borderRadius: 10,
+                                }}
+                                value={this.state.userName}
+                                autoCapitalize={'none'}
+                                spellCheck={false}
+                                autoCorrect={false}
+                                onChangeText={(input) => this.setState({ userName: input, validateUserName: false })}
+                            />
+                        </View>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
+                        <View style={{ flex: 0.35, marginTop: !this.state.repositoryExists ? -15 : 0 }}>
+                            <Text style={{ fontSize: 16 }}>
+                                Repository Name:
+                            </Text>
+                        </View>
+                        <View style={{ flex: 0.65 }}>
+                            <TextInput
+                                placeholder={this.state.validateRepository ? 'Enter Valid Repository' : 'Github the Repository Name'}
+                                placeholderTextColor={this.state.validateRepository ? 'red' : 'grey'}
+                                style={{
+                                    padding: 10,
+                                    fontSize: 16,
+                                    borderColor: this.state.validateRepository || !this.state.repositoryExists ? 'red' : 'grey',
+                                    borderWidth: 1,
+                                    borderRadius: 10,
+                                }}
+                                autoCapitalize={'none'}
+                                value={this.state.repository}
+                                spellCheck={false}
+                                autoCorrect={false}
+                                onChangeText={(input) => this.setState({ repository: input, validateRepository: false })}
+                            />
+                            {!this.state.repositoryExists ?
+                                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                    <Text style={{ color: 'red', fontSize: 16 }}>Entered Repository doesn't exist</Text>
+                                </View>
+                                : null
+                            }
+                        </View>
+                    </View>
+                    <TouchableOpacity
+                        style={{
+                            height: 50,
+                            backgroundColor: '#263238',
+                            borderColor: '#263238',
+                            borderWidth: 1,
+                            borderRadius: 10,
+                            marginTop: 10,
+                            justifyContent: 'center',
+                        }}
+                        onPress={() => this.handleCommits()} >
+                        <Text style={{
+                            color: '#FFFFFF',
+                            fontSize: 18,
+                            alignSelf: 'center',
+                        }}>
+                            Display Commits
                         </Text>
-                    </View>
-                    <View style={{ flex: 0.65 }}>
-                        <TextInput
-                            placeholder={this.state.validateUserName ? 'Enter Valid Username' : 'Enter your Github Username'}
-                            placeholderTextColor={this.state.validateUserName ? 'red' : 'grey'}
-                            style={{
-                                padding: 10,
-                                fontSize: 16,
-                                borderColor: this.state.validateUserName ? 'red' : 'grey',
-                                borderWidth: 1,
-                                borderRadius: 10,
-                            }}
-                            value={this.state.userName}
-                            autoCapitalize={'none'}
-                            spellCheck={false}
-                            autoCorrect={false}
-                            onChangeText={(input) => this.setState({ userName: input, validateUserName: false })}
-                        />
-                    </View>
+                    </TouchableOpacity>
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
-                    <View style={{ flex: 0.35, marginTop: !this.state.repositoryExists ? -15 : 0 }}>
-                        <Text style={{ fontSize: 16 }}>
-                            Repository Name:
-                        </Text>
-                    </View>
-                    <View style={{ flex: 0.65 }}>
-                        <TextInput
-                            placeholder={this.state.validateRepository ? 'Enter Valid Repository' : 'Github the Repository Name'}
-                            placeholderTextColor={this.state.validateRepository ? 'red' : 'grey'}
-                            style={{
-                                padding: 10,
-                                fontSize: 16,
-                                borderColor: this.state.validateRepository || !this.state.repositoryExists ? 'red' : 'grey',
-                                borderWidth: 1,
-                                borderRadius: 10,
-                            }}
-                            autoCapitalize={'none'}
-                            value={this.state.repository}
-                            spellCheck={false}
-                            autoCorrect={false}
-                            onChangeText={(input) => this.setState({ repository: input, validateRepository: false })}
-                        />
-                        {!this.state.repositoryExists ?
-                            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ color: 'red', fontSize: 16 }}>Entered Repository doesn't exist</Text>
-                            </View>
-                            : null
-                        }
-                    </View>
-                </View>
-                <TouchableOpacity
-                    style={{
-                        height: 50,
-                        backgroundColor: '#263238',
-                        borderColor: '#263238',
-                        borderWidth: 1,
-                        borderRadius: 10,
-                        marginTop: 10,
-                        justifyContent: 'center',
-                    }}
-                    onPress={() => this.handleCommits()} >
-                    <Text style={{
-                        color: '#FFFFFF',
-                        fontSize: 18,
-                        alignSelf: 'center',
-                    }}>
-                        Display Commits
-                    </Text>
-                </TouchableOpacity>
+                {this.state.displayResults ? <ResultsView data={this.state.results} /> : null}
             </View>
         );
     }
+
+    // renderResults() {
+    //     return (
+    //         <View style={{ flex: 1, backgroundColor: '#ADD8E6' }}>
+    //             <Text>Will Output Results here</Text>
+    //         </View>
+    //     )
+    // }
 
     render() {
         return (

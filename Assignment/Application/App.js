@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 /*
 We’re looking forward to getting together and digging into some code. 
 In advance of that, we would like you to do the following: 
@@ -180,7 +182,7 @@ class App extends Component {
                                 spellCheck={false}
                                 autoCorrect={false}
                                 onChangeText={(input) =>
-                                    this.setState({ userName: input, validateUserName: false })
+                                    this.setState({ userName: input, validateUserName: false, displayResults: false, })
                                 }
                             />
                         </View>
@@ -221,7 +223,7 @@ class App extends Component {
                                 spellCheck={false}
                                 autoCorrect={false}
                                 onChangeText={(input) =>
-                                    this.setState({ repository: input, validateRepository: false })
+                                    this.setState({ repository: input, validateRepository: false, displayResults: false, })
                                 }
                             />
                             {!this.state.repositoryExists ? (

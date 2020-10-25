@@ -10,35 +10,31 @@ class App extends Component {
         this.state = {
             userName: '',
             repository: '',
+            validateUserName: false,
+            validateRepository: false
         };
-        this.handleCommits = this.handleCommits.bind(this)
-        this.handleInputText = this.handleInputText.bind(this)
+        this.handleCommits = this.handleCommits.bind(this);
     }
 
     handleCommits() {
         console.log('Display Button Clicked: ', this.state);
-    }
-
-    handleInputText = (type, value) => {
-        let userId = this.state.userName ? this.state.userName : null
-        let repos = this.state.repository ? this.state.repository : null
-
-        if (type === 'username') {
-            userId = value;
+        let userId = this.state.userName != '' && this.state.userName != undefined && this.state.userName != null ? this.state.userName : null
+        let repos = this.state.repository != '' && this.state.repository != undefined && this.state.repository != null ? this.state.repository : null
+        console.log("IN HANDLE Commits: ", userId, repos)
+        if (userId === null) {
+            this.setState({
+                validateUserName: true,
+            });
         }
-        else if (type === 'repo') {
-            repos = value
+        if (repos === null) {
+            this.setState({
+                validateRepository: true,
+            });
         }
-
-        this.setState({
-            userName: userId,
-            repository: repos
-        })
     }
-
-
 
     displayMainView() {
+        console.log("IN Render: ", this.state)
         return (
             <View style={{
                 flex: 1,
@@ -46,25 +42,26 @@ class App extends Component {
                 padding: 10,
                 backgroundColor: 'white',
             }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <View style={{ flex: 0.35 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{ flex: 0.35, justifyContent: 'center' }}>
                         <Text style={{ fontSize: 16 }}>
                             GitHub Username:
                         </Text>
                     </View>
                     <View style={{ flex: 0.65 }}>
                         <TextInput
-                            placeholder="Enter your Github Username"
+                            placeholder={this.state.validateUserName ? 'Enter Valid Username' : 'Enter your Github Username'}
+                            placeholderTextColor={this.state.validateUserName ? 'red' : 'grey'}
                             style={{
                                 padding: 10,
                                 fontSize: 16,
-                                borderColor: 'grey',
+                                borderColor: this.state.validateUserName ? 'red' : 'grey',
                                 borderWidth: 1,
                                 borderRadius: 10,
                             }}
                             spellCheck={false}
                             autoCorrect={false}
-                            onChangeText={(input) => this.handleInputText('username', input)}
+                            onChangeText={(input) => this.setState({ userName: input, validateUserName: false })}
                         />
                     </View>
                 </View>
@@ -74,19 +71,20 @@ class App extends Component {
                             Repository Name:
                         </Text>
                     </View>
-                    <View style={{ flex: 0.65 }}>
+                    <View style={{ flex: 0.65, justifyContent: 'center' }}>
                         <TextInput
-                            placeholder="Github the Repository Name"
+                            placeholder={this.state.validateRepository ? 'Enter Valid Repository' : 'Github the Repository Name'}
+                            placeholderTextColor={this.state.validateRepository ? 'red' : 'grey'}
                             style={{
                                 padding: 10,
                                 fontSize: 16,
-                                borderColor: 'grey',
+                                borderColor: this.state.validateRepository ? 'red' : 'grey',
                                 borderWidth: 1,
                                 borderRadius: 10,
                             }}
                             spellCheck={false}
                             autoCorrect={false}
-                            onChangeText={(input) => this.handleInputText('repo', input)}
+                            onChangeText={(input) => this.setState({ repository: input, validateRepository: false })}
                         />
                     </View>
                 </View>

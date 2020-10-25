@@ -5,6 +5,20 @@ import { View, Text, SafeAreaView, TextInput, TouchableOpacity } from 'react-nat
 
 class App extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            userName: '',
+            repository: '',
+        };
+        this.handleCommits = this.handleCommits.bind(this)
+    }
+
+    handleCommits() {
+        console.log('Display Button Clicked: ', this.state);
+    }
+
+
 
     displayMainView() {
         return (
@@ -22,7 +36,7 @@ class App extends Component {
                     </View>
                     <View style={{ flex: 0.65 }}>
                         <TextInput
-                            placeholder="Enter your github username"
+                            placeholder="Enter your Github Username"
                             style={{
                                 padding: 10,
                                 fontSize: 16,
@@ -30,6 +44,27 @@ class App extends Component {
                                 borderWidth: 1,
                                 borderRadius: 10,
                             }}
+                            onChangeText={(input) => this.setState({ userName: input })}
+                        />
+                    </View>
+                </View>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
+                    <View style={{ flex: 0.35 }}>
+                        <Text style={{ fontSize: 16 }}>
+                            Repository Name:
+                        </Text>
+                    </View>
+                    <View style={{ flex: 0.65 }}>
+                        <TextInput
+                            placeholder="Github the Repository Name"
+                            style={{
+                                padding: 10,
+                                fontSize: 16,
+                                borderColor: 'grey',
+                                borderWidth: 1,
+                                borderRadius: 10,
+                            }}
+                            onChangeText={(input) => this.setState({ repository: input })}
                         />
                     </View>
                 </View>
@@ -42,17 +77,18 @@ class App extends Component {
                         borderRadius: 10,
                         marginTop: 10,
                         justifyContent: 'center',
-                    }}>
+                    }}
+                    onPress={() => this.handleCommits()} >
                     <Text style={{
                         color: '#FFFFFF',
                         fontSize: 18,
-                        alignSelf: 'center'
+                        alignSelf: 'center',
                     }}>
                         Display Commits
                     </Text>
                 </TouchableOpacity>
             </View>
-        )
+        );
     }
 
     render() {
@@ -64,5 +100,5 @@ class App extends Component {
     }
 }
 
-export default App
+export default App;
 

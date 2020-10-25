@@ -1,19 +1,18 @@
-/* eslint-disable prettier/prettier */
-import { Dimensions, StyleSheet } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 const screenWidth = width < height ? width : height;
 const screenHeight = width < height ? height : width;
-const baseMargin = 10
+const baseMargin = 10;
 
 //All Application Styles goes here
 export default StyleSheet.create({
     mainRender: {
         flex: 1,
-        backgroundColor: '#EDE8D7'
+        backgroundColor: '#EDE8D7',
     },
     mainView1: {
-        flex: 1
+        flex: 1,
     },
     mainView2: {
         marginTop: screenHeight * baseMargin * 0.0025,
@@ -22,29 +21,29 @@ export default StyleSheet.create({
     },
     userInputView: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     usernameTextView: {
         flex: 0.35,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     headerText: {
-        fontSize: 16
+        fontSize: 16,
     },
     repositoryView: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: screenHeight * baseMargin * 0.001
+        marginTop: screenHeight * baseMargin * 0.001,
     },
     errorView: {
         alignItems: 'center',
         justifyContent: 'center',
-        padding: screenWidth * baseMargin * 0.001
+        padding: screenWidth * baseMargin * 0.001,
     },
     errorText: {
         color: '#FF0000',
-        fontSize: 16
+        fontSize: 16,
     },
     buttonStyle: {
         backgroundColor: '#263238',
@@ -62,46 +61,46 @@ export default StyleSheet.create({
     },
     resultViewRender: {
         flex: 1,
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
     },
     resultViewHeader: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: screenHeight * baseMargin * 0.002
+        marginTop: screenHeight * baseMargin * 0.002,
     },
     resultViewHeaderText: {
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     flatlistContainer: {
         flex: 1,
-        marginTop: screenHeight * baseMargin * 0.001
+        marginTop: screenHeight * baseMargin * 0.001,
     },
     bottomBorder: {
         borderBottomWidth: 1,
-        borderBottomColor: '#000000'
+        borderBottomColor: '#000000',
     },
     cardView: {
         flex: 1,
-        margin: screenWidth * baseMargin * 0.001
+        margin: screenWidth * baseMargin * 0.001,
     },
     indexView: {
         flex: 0.5,
         justifyContent: 'flex-start',
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
     },
     subheaderText: {
         fontSize: 16,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     subValue: {
         fontSize: 16,
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
     },
     cardValueView: {
         flexDirection: 'row',
         flex: 1,
         marginBottom: screenHeight * baseMargin * 0.001,
-        marginTop: screenHeight * baseMargin * 0.001
+        marginTop: screenHeight * baseMargin * 0.001,
     },
-})
+});

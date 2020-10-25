@@ -12,8 +12,8 @@ class ResultsView extends Component {
         this.display = this.display.bind(this);
     }
 
+    //flatlist render component
     display(value, index) {
-        console.log("Value: ", value, index)
         return (
             <View style={styles.cardView}>
                 <View style={styles.indexView}>
@@ -50,7 +50,6 @@ class ResultsView extends Component {
 
     render() {
         let input = this.props && this.props.data && this.props.data.length > 0 ? this.props.data : null
-        console.log("Input: ", input)
         return (
             <View style={styles.resultViewRender}>
                 <View style={styles.resultViewHeader}>
@@ -58,7 +57,6 @@ class ResultsView extends Component {
                         <Text style={styles.resultViewHeaderText}>Displaying Top 25 Commits</Text> :
                         <Text style={styles.resultViewHeaderText}>Displaying All Available Commits</Text>
                     }
-                    {/* <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{(input && input.length) + ' commit' + (input && input.length > 1 ? 's ' : '') + 'found'}</Text> */}
                 </View>
                 <FlatList
                     style={styles.flatlistContainer}

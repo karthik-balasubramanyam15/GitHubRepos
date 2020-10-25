@@ -19,14 +19,15 @@ import React, { Component } from 'react';
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
 import _ from 'lodash';
 import ResultsView from './ResultsView';
+import styles from './Style'
 
 class App extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            userName: 'karthik-balasubramanyam15',
-            repository: 'GMTechnicalAssignment',
+            userName: '',
+            repository: '',
             validateUserName: false,
             validateRepository: false,
             repos: [],
@@ -120,15 +121,11 @@ class App extends Component {
     displayMainView() {
         console.log('IN Render: ', this.state);
         return (
-            <View style={{ flex: 1, marginBottom: 25 }}>
-                <View style={{
-                    marginTop: 25,
-                    padding: 10,
-                    backgroundColor: 'white',
-                }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={{ flex: 0.35, justifyContent: 'center' }}>
-                            <Text style={{ fontSize: 16 }}>
+            <View style={styles.mainView1}>
+                <View style={styles.mainView2}>
+                    <View style={styles.userInputView}>
+                        <View style={styles.usernameTextView}>
+                            <Text style={styles.headerText}>
                                 GitHub Username:
                             </Text>
                         </View>
@@ -151,9 +148,9 @@ class App extends Component {
                             />
                         </View>
                     </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
+                    <View style={styles.repositoryView}>
                         <View style={{ flex: 0.35, marginTop: !this.state.repositoryExists ? -15 : 0 }}>
-                            <Text style={{ fontSize: 16 }}>
+                            <Text style={styles.headerText}>
                                 Repository Name:
                             </Text>
                         </View>
@@ -175,29 +172,16 @@ class App extends Component {
                                 onChangeText={(input) => this.setState({ repository: input, validateRepository: false })}
                             />
                             {!this.state.repositoryExists ?
-                                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                                    <Text style={{ color: 'red', fontSize: 16 }}>Entered Repository doesn't exist</Text>
+                                <View style={styles.errorView}>
+                                    <Text style={styles.errorText}>Entered Repository doesn't exist</Text>
                                 </View>
                                 : null
                             }
                         </View>
                     </View>
-                    <TouchableOpacity
-                        style={{
-                            height: 50,
-                            backgroundColor: '#263238',
-                            borderColor: '#263238',
-                            borderWidth: 1,
-                            borderRadius: 10,
-                            marginTop: 10,
-                            justifyContent: 'center',
-                        }}
+                    <TouchableOpacity style={styles.buttonStyle}
                         onPress={() => this.handleCommits()} >
-                        <Text style={{
-                            color: '#FFFFFF',
-                            fontSize: 18,
-                            alignSelf: 'center',
-                        }}>
+                        <Text style={styles.buttonText}>
                             Display Commits
                         </Text>
                     </TouchableOpacity>
@@ -209,7 +193,7 @@ class App extends Component {
 
     render() {
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: 'teal' }}>
+            <SafeAreaView style={styles.mainRender}>
                 {this.displayMainView()}
             </SafeAreaView>
         );

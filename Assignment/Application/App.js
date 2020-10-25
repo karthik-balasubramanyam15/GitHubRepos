@@ -24,12 +24,14 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: '',
-            repository: '',
+            userName: 'karthik-balasubramanyam15',
+            repository: 'GMTechnicalAssignment',
             validateUserName: false,
             validateRepository: false,
             repos: [],
             repositoryExists: true,
+            displayResults: false,
+            results: []
         };
         this.handleCommits = this.handleCommits.bind(this);
     }
@@ -49,16 +51,39 @@ class App extends Component {
         }
         if (!_.isEmpty(userId) && !_.isEmpty(repos)) {
             await this.getRepositories().then((res) => {
-                console.log("In Commit: ", res)
                 this.getRepositoryNames(res);
             });
 
             if (this.state.repos.includes(repos)) {
-                this.setState({ repositoryExists: true })
+                this.setState({
+                    repositoryExists: true,
+                    displayResults: true
+                })
+                await this.getCommits().then((res) => {
+                    this.getResultsArray(res);
+                });
             } else {
                 this.setState({ repositoryExists: false })
             }
         }
+    }
+
+    getResultsArray(response) {
+        let tempArray = []
+        response && response.length > 0 ? response.map((value) => {
+            //Displays those commits in a list with the author, commit hash, and commit message. 
+            let tempObj = {
+                commitHash: value && value.sha,
+                author: value && value.commit.author && value.commit.author.name,
+                commitMessage: value && value.commit && value.commit.message
+            }
+
+            tempArray.push(tempObj);
+        }) : null
+
+        this.setState({
+            results: tempArray
+        })
     }
 
     getRepositories = () => {
@@ -74,9 +99,15 @@ class App extends Component {
         })
             : null
 
-        this.setState({
-            repos: tempArray
-        })
+        this.setState({ repos: tempArray })
+    }
+
+    getCommits = () => {
+        let userName = this.state.userName.toLowerCase().trim();
+        let repository = this.state.repository.toLowerCase().trim();
+
+        const url = `https://api.github.com/repos/${userName}/${repository}/commits`;
+        return fetch(url).then((res) => res.json());
     }
 
     displayMainView() {

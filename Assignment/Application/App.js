@@ -120,9 +120,9 @@ class App extends Component {
     displayMainView() {
         console.log('IN Render: ', this.state);
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, marginBottom: 25 }}>
                 <View style={{
-                    marginTop: 100,
+                    marginTop: 25,
                     padding: 10,
                     backgroundColor: 'white',
                 }}>
@@ -206,14 +206,6 @@ class App extends Component {
             </View>
         );
     }
-
-    // renderResults() {
-    //     return (
-    //         <View style={{ flex: 1, backgroundColor: '#ADD8E6' }}>
-    //             <Text>Will Output Results here</Text>
-    //         </View>
-    //     )
-    // }
 
     render() {
         return (

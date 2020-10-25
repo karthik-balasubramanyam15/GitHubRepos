@@ -12,10 +12,28 @@ class App extends Component {
             repository: '',
         };
         this.handleCommits = this.handleCommits.bind(this)
+        this.handleInputText = this.handleInputText.bind(this)
     }
 
     handleCommits() {
         console.log('Display Button Clicked: ', this.state);
+    }
+
+    handleInputText = (type, value) => {
+        let userId = this.state.userName ? this.state.userName : null
+        let repos = this.state.repository ? this.state.repository : null
+
+        if (type === 'username') {
+            userId = value;
+        }
+        else if (type === 'repo') {
+            repos = value
+        }
+
+        this.setState({
+            userName: userId,
+            repository: repos
+        })
     }
 
 
@@ -44,7 +62,9 @@ class App extends Component {
                                 borderWidth: 1,
                                 borderRadius: 10,
                             }}
-                            onChangeText={(input) => this.setState({ userName: input })}
+                            spellCheck={false}
+                            autoCorrect={false}
+                            onChangeText={(input) => this.handleInputText('username', input)}
                         />
                     </View>
                 </View>
@@ -64,7 +84,9 @@ class App extends Component {
                                 borderWidth: 1,
                                 borderRadius: 10,
                             }}
-                            onChangeText={(input) => this.setState({ repository: input })}
+                            spellCheck={false}
+                            autoCorrect={false}
+                            onChangeText={(input) => this.handleInputText('repo', input)}
                         />
                     </View>
                 </View>

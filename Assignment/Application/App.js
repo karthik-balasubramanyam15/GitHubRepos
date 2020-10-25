@@ -2,6 +2,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
+import _ from 'lodash'
 
 class App extends Component {
 
@@ -16,17 +17,19 @@ class App extends Component {
         this.handleCommits = this.handleCommits.bind(this);
     }
 
+
+
     handleCommits() {
         console.log('Display Button Clicked: ', this.state);
-        let userId = this.state.userName != '' && this.state.userName != undefined && this.state.userName != null ? this.state.userName : null
-        let repos = this.state.repository != '' && this.state.repository != undefined && this.state.repository != null ? this.state.repository : null
+        let userId = !_.isEmpty(this.state.userName) ? this.state.userName : null
+        let repos = !_.isEmpty(this.state.repository) ? this.state.repository : null
         console.log("IN HANDLE Commits: ", userId, repos)
-        if (userId === null) {
+        if (_.isEmpty(this.state.userName)) {
             this.setState({
                 validateUserName: true,
             });
         }
-        if (repos === null) {
+        if (_.isEmpty(this.state.repository)) {
             this.setState({
                 validateRepository: true,
             });
